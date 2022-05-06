@@ -8,7 +8,8 @@ class ServerExpress{
     constructor() {
         this.app = express();
         this.port = config.port;
-        this.basePathUsers = `${config.api.prefix}/users`;
+        this.basePathWeather = `${config.api.prefix}/weather`;
+        this.basePathCities = `${config.api.prefix}/cities`;
 
         this._middlewares();
         this._swaggerConfig();
@@ -27,7 +28,8 @@ class ServerExpress{
             res.status(200).end();
         });
 
-        this.app.use(this.basePathUsers, require('../../routes/users'));
+        this.app.use(this.basePathWeather, require('../../routes/weather'));
+        this.app.use(this.basePathCities, require('../../routes/cities'));
     };
 
     _notFound() {
@@ -57,8 +59,8 @@ class ServerExpress{
 
     _swaggerConfig(){
         this.app.use(
-            config.swagger.path, 
-            swaggerUi.serve, 
+            config.swagger.path,
+            swaggerUi.serve,
             swaggerUi.setup(require('../swagger/swagger.json'))
         );
     };
